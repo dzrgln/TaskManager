@@ -1,3 +1,6 @@
+package Tasks;
+
+import java.util.Objects;
 
 public class Task {
     protected int id;
@@ -47,17 +50,30 @@ public class Task {
         return status;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return id == task.id;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Task otherTask = (Task) obj;
+        return id == otherTask.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "Tasks.Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
