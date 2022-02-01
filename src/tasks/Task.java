@@ -35,16 +35,16 @@ public class Task {
         this.description = description;
     }
 
-    public void setStatus(String status) {
-        this.status = StageOfTask.valueOf(status);
+    public void setStatus(StageOfTask status) {
+        this.status = status;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getStatus() {
-        return status.name();
+    public StageOfTask getStatus() {
+        return status;
     }
 
     public String getName() {

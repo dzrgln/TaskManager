@@ -17,13 +17,13 @@ public class Epic extends Task {
     }
 
     @Override
-    public String getStatus() {
+    public StageOfTask getStatus() {
         changeStatus();
         return super.getStatus();
     }
 
     @Override
-    public void setStatus(String status) {
+    public void setStatus(StageOfTask status) {
         System.out.println("Статус эпика обновлен в зависимости от статусов их подзадач");
         changeStatus();
     }
