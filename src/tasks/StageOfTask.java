@@ -1,4 +1,4 @@
-package Tasks;
+package tasks;
 
 public enum StageOfTask {
     NEW("NEW"), IN_PROGRESS("IN_PROGRESS"), DONE("DONE");

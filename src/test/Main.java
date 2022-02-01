@@ -1,6 +1,9 @@
-import Tasks.Epic;
-import Tasks.SubTask;
-import Tasks.Task;
+package test;
+
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
+import utilites.Manager;
 
 import java.util.Arrays;
 
@@ -9,16 +12,16 @@ public class Main {
         Manager manager = new Manager();
 
         //Create Tasks.Epic and two subtasks
-        manager.createAnyTask(new Epic("Cooking", "Crate dinner"));
-        manager.createAnyTask(new SubTask("Shopping", "buy potato", "NEW", 1));
-        manager.createAnyTask(new SubTask("Clear potato", "", "IN_PROGRESS", 1));
+        manager.addAnyTask(new Epic("Cooking", "Crate dinner"));
+        manager.addAnyTask(new SubTask("Shopping", "buy potato", "NEW", 1));
+        manager.addAnyTask(new SubTask("Clear potato", "", "IN_PROGRESS", 1));
         //Create Tasks.Epic and one subtask
-        manager.createAnyTask(new Epic("Write Diploma", ""));
-        manager.createAnyTask(new SubTask("Do literature review ", "To find 50 sources", "NEW"
+        manager.addAnyTask(new Epic("Write Diploma", ""));
+        manager.addAnyTask(new SubTask("Do literature review ", "To find 50 sources", "NEW"
                 , 4));
         //Create two tasks
-        manager.createAnyTask(new Task("Drink juice", "", "NEW"));
-        manager.createAnyTask(new Task("Eat meet", "", "NEW"));
+        manager.addAnyTask(new Task( "Drink juice", "", "NEW"));
+        manager.addAnyTask(new Task( "Eat meet", "", "NEW"));
         System.out.println("Tasks have created");
         //Print tasks
         System.out.println("-Tasks: " + Arrays.toString(manager.getListOfTasks().toArray()));
@@ -28,7 +31,7 @@ public class Main {
         manager.updateAnyTask(2, new SubTask("Shopping", "buy potato", "DONE"
                 , 1));
         manager.updateAnyTask(3, new SubTask("Clear potato", "", "DONE", 1));
-        manager.updateAnyTask(6, new Task("Drink juice", "", "DONE"));
+        manager.updateAnyTask(6, new Task( "Drink juice", "", "DONE"));
         System.out.println("Tasks have updated");
         //Print tasks
         System.out.println("-Tasks: " + Arrays.toString(manager.getListOfTasks().toArray()));

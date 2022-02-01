@@ -1,4 +1,4 @@
-package Tasks;
+package tasks;
 
 import java.util.Objects;
 
@@ -6,19 +6,25 @@ public class Task {
     protected int id;
     protected String name;
     protected String description;
-    protected String status;
+    protected StageOfTask status;
+    protected boolean isNew = true;
 
     public Task(String name, String description, String status) {
         this.name = name;
         this.description = description;
-        this.status = status;
+        this.status = StageOfTask.valueOf(status);
     }
 
     public Task() {
     }
 
     public void setId(int id) {
-        this.id = id;
+        if(isNew){
+            this.id = id;
+            isNew = false;
+        } else {
+            System.out.println("Изменение идентификатора невозможно");
+        }
     }
 
     public void setName(String name) {
@@ -30,16 +36,7 @@ public class Task {
     }
 
     public void setStatus(String status) {
-        while (true) {
-            if (status.equals(StageOfTask.DONE.getName()) || status.equals(StageOfTask.NEW.getName())
-                    || status.equals(StageOfTask.IN_PROGRESS.getName())) {
-                this.status = status;
-                break;
-            } else {
-                System.out.println("Некорректный ввод для задачи " + this.name
-                        + ". Допустимые значения для статуса: DONE, NEW, IN_PROGRESS");
-            }
-        }
+        this.status = StageOfTask.valueOf(status);
     }
 
     public int getId() {
@@ -47,7 +44,7 @@ public class Task {
     }
 
     public String getStatus() {
-        return status;
+        return status.name();
     }
 
     public String getName() {
