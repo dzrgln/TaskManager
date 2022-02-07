@@ -39,10 +39,10 @@ public class Epic extends Task {
         }
         //Check status of subtasks
         for (SubTask subTask : subTasks) {
-            if (!subTask.getStatus().equals("NEW")) {
+            if (!subTask.getStatus().equals(StageOfTask.NEW)) {
                 isNewSubTask = false;
             }
-            if (!subTask.getStatus().equals("DONE")) {
+            if (!subTask.getStatus().equals(StageOfTask.DONE)) {
                 isDoneSubTask = false;
             }
             if (!isDoneSubTask && !isNewSubTask) {
