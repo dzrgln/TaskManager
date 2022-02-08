@@ -9,13 +9,15 @@ public interface HistoryManager {
 
      List<Task> getHistoryList();
 
-     void add(Task task);
+     abstract void add(Task task);
 
-     void updateHistory();
+     abstract void updateHistory();
 
-     void deleteTask(int id, Map<Integer, Task> map);
+     abstract void deleteTask(int id, Map<Integer, Task> map);
 
-     void deleteEpic(int id, Map<Integer, Epic> map);
+     abstract void deleteEpic(int id, Map<Integer, Epic> map);
 
-     void deleteSubTask(int id, Map<Integer, SubTask> map);
+     abstract void deleteSubTask(int id, Map<Integer, SubTask> map);
+
+     abstract void deleteAllHistory();
 }

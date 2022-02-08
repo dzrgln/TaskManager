@@ -17,6 +17,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void add(Task task) {
         lastTasks.add(task);
+        updateHistory();
     }
 
     @Override
@@ -28,18 +29,22 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void deleteTask(int id, Map<Integer, Task> map) {
-        map.remove(id);
+        lastTasks.remove(map.get(id));
     }
 
     @Override
     public void deleteEpic(int id, Map<Integer, Epic> map) {
-        map.remove(id);
+        lastTasks.remove(map.get(id));
     }
 
     @Override
     public void deleteSubTask(int id, Map<Integer, SubTask> map) {
-        map.remove(id);
+        lastTasks.remove(map.get(id));
     }
 
+    @Override
+    public void deleteAllHistory() {
+        lastTasks.clear();
 
+    }
 }

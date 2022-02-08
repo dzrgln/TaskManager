@@ -26,7 +26,7 @@ public class Main {
         inMemoryTaskManager.addAnyTask(new Task( "Eat meet2", "", "NEW"));
         inMemoryTaskManager.addAnyTask(new Task( "Eat meet3", "", "NEW"));
         inMemoryTaskManager.addAnyTask(new Task( "Eat meet4", "", "NEW"));
-        System.out.println("Tasks have created");
+//        System.out.println("Tasks have created");
 //        //Print tasks
 //        System.out.println("-Tasks: " + Arrays.toString(inMemoryTaskManager.getListOfTasks().toArray()));
 //        System.out.println("-Epics: " + Arrays.toString(inMemoryTaskManager.getListOfEpics().toArray()));
@@ -63,6 +63,6 @@ public class Main {
         System.out.println("Task 2: " + inMemoryTaskManager.getAnyTask(10));
         System.out.println("Task 2: " + inMemoryTaskManager.getAnyTask(11));
         System.out.println("History of requests:");
-        System.out.println(inMemoryTaskManager.history().size());
+        System.out.println(inMemoryTaskManager.history());
     }
 }

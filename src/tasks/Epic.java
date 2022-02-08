@@ -28,7 +28,13 @@ public class Epic extends Task {
         changeStatus();
     }
 
-    public void changeStatus() {
+    @Override
+    public String toString() {
+        changeStatus();
+        return super.toString();
+    }
+
+    private void changeStatus() {
         boolean isNewSubTask = true;
         boolean isInProgressSubTask = false;
         boolean isDoneSubTask = true;

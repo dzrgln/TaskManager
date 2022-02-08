@@ -16,53 +16,39 @@ public interface TaskManager {
 
     void deleteAllTasks();
 
-    Task getAnyTask(int id);
+    abstract Task getAnyTask(int id);
 
-    Task getTask(int id);
+    abstract Task getTask(int id);
 
-    Epic getEpic(int id);
+    abstract Epic getEpic(int id);
 
-    SubTask getSubTask(int id);
+    abstract SubTask getSubTask(int id);
 
+    abstract void addAnyTask(Task task);
 
+    abstract void addTask(Task task);
 
-    void addAnyTask(Task task);
+    abstract void addEpic(Task task);
 
-    default void addTask(Task task) {
-    }
+    abstract void addSubTask(Task task);
 
-    default void addEpic(Task task) {
-    }
+    abstract void updateAnyTask(int id, Task task);
 
-    default void addSubTask(Task task) {
-    }
+    abstract void updateEpic(int id, Task task);
 
-    void updateAnyTask(int id, Task task);
+    abstract void updateSubtask(int id, Task task);
 
-    default void updateEpic(int id, Task task) {
-    }
+    abstract void updateTask(int id, Task task);
 
-    default void updateSubtask(int id, Task task) {
-    }
+    abstract void deleteAnyTask(int id);
 
-    default void updateTask(int id, Task task) {
-    }
+    abstract void deleteEpic(int id);
 
-    void deleteAnyTask(int id);
+    abstract void deleteSubTask(int id);
 
-    default void deleteEpic(int id) {
-    }
+    abstract void deleteTask(int id);
 
-    default void deleteSubTask(int id) {
-    }
+    abstract List<SubTask> getSubtasksForEpic(int id);
 
-    default void deleteTask(int id) {
-
-    }
-
-    List<SubTask> getSubtasksForEpic(int id);
-
-    List<Task> history();
-
-
+    abstract List<Task> history();
 }
