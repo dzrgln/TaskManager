@@ -20,26 +20,15 @@ public class InMemoryHistoryManager implements HistoryManager {
         updateHistory();
     }
 
-    @Override
-    public void updateHistory() {
+    private void updateHistory() {
         if(lastTasks.size() > 10){
             lastTasks.remove(0);
         }
     }
 
     @Override
-    public void deleteTask(int id, Map<Integer, Task> map) {
-        lastTasks.remove(map.get(id));
-    }
-
-    @Override
-    public void deleteEpic(int id, Map<Integer, Epic> map) {
-        lastTasks.remove(map.get(id));
-    }
-
-    @Override
-    public void deleteSubTask(int id, Map<Integer, SubTask> map) {
-        lastTasks.remove(map.get(id));
+    public void deleteAnyTask(Task task) {
+        lastTasks.remove(task);
     }
 
     @Override
