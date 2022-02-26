@@ -11,7 +11,8 @@ public interface HistoryManager {
 
      void add(Task task);
 
-     void deleteAnyTask(Task task);
+     void remove(Task task);
 
      void deleteAllHistory();
+
 }
