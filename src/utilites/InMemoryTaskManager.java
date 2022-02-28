@@ -3,6 +3,7 @@ package utilites;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,10 +11,10 @@ import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
     private static int id = 1;
-    private Map<Integer, Task> tasks = new HashMap<>();
-    private Map<Integer, Epic> epics = new HashMap<>();
-    private Map<Integer, SubTask> subTasks = new HashMap<>();
-    private HistoryManager managerHistory = Managers.getDefaultHistory();
+    private final Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, Epic> epics = new HashMap<>();
+    private final Map<Integer, SubTask> subTasks = new HashMap<>();
+    private final HistoryManager managerHistory = Managers.getDefaultHistory();
 
     @Override
     public List<Task> getListOfAllTasks() {
@@ -92,27 +93,30 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             addTask(task);
         }
-        managerHistory.add(task);
+//        managerHistory.add(task);
     }
 
+    @Override
     public void addTask(Task task) {
         int idTask = id++;
         tasks.put(idTask, task);
         task.setId(idTask);
     }
 
+    @Override
     public void addEpic(Task task) {
         int idTask = id++;
         epics.put(idTask, (Epic) task);
         task.setId(idTask);
-        if(!((Epic) task).getSubTasks().isEmpty()){
-            for(SubTask subTask: ((Epic) task).getSubTasks()){
+        if (!((Epic) task).getSubTasks().isEmpty()) {
+            for (SubTask subTask : ((Epic) task).getSubTasks()) {
                 subTask.setIdOfEpic(idTask);
                 addSubTask(subTask);
             }
         }
     }
 
+    @Override
     public void addSubTask(Task task) {
         int idTask = id++;
         subTasks.put(idTask, (SubTask) task);
@@ -174,25 +178,40 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
+    @Override
     public void deleteEpic(int id) {
-        for (SubTask subTask1 : getSubtasksForEpic(id)) {
-            managerHistory.remove(subTask1);
-            subTasks.remove(subTask1.getId());
+        try {
+            managerHistory.remove(epics.get(id));
+            for (SubTask subTask1 : getSubtasksForEpic(id)) {
+                managerHistory.remove(subTask1);
+                subTasks.remove(subTask1.getId());
+                epics.remove(id);
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Задачи с таким id не существует");
         }
-        managerHistory.remove(epics.get(id));
-            epics.remove(id);
     }
 
+    @Override
     public void deleteSubTask(int id) {
-        managerHistory.remove(subTasks.get(id));
-        subTasks.remove(id);
-        //removing subtask from its epic
-        epics.get(subTasks.get(id).getIdOfEpic()).getSubTasks().remove(subTasks.get(id));
+        try {
+            managerHistory.remove(subTasks.get(id));
+            //removing subtask from its epic
+            epics.get(subTasks.get(id).getIdOfEpic()).getSubTasks().remove(subTasks.get(id));
+            subTasks.remove(id);
+        } catch (NullPointerException e) {
+            System.out.println("Задачи с таким id не существует");
+        }
     }
 
+    @Override
     public void deleteTask(int id) {
-        managerHistory.remove(tasks.get(id));
-        tasks.remove(id);
+        try {
+            managerHistory.remove(tasks.get(id));
+            tasks.remove(id);
+        } catch (NullPointerException e) {
+            System.out.println("Задачи с таким id не существует");
+        }
     }
 
     @Override

@@ -21,47 +21,18 @@ public class Main {
         //Create Tasks.Epic
         // id: 5
         inMemoryTaskManager.addAnyTask(new Epic("Write Diploma", ""));
-//        inMemoryTaskManager.addAnyTask(new SubTask("Do literature review ", "To find 50 sources"
-//                ,"NEW", 4));
-//        //Create two tasks
+        //Create two tasks
         // id: 6
-        inMemoryTaskManager.addAnyTask(new Task( "Drink juice", "", "NEW"));
+        inMemoryTaskManager.addAnyTask(new Task("Drink juice", "", "NEW"));
         // id: 7
-        inMemoryTaskManager.addAnyTask(new Task( "Eat meet", "", "NEW"));
-//        inMemoryTaskManager.addAnyTask(new Task( "Eat meet1", "", "NEW"));
-//        inMemoryTaskManager.addAnyTask(new Task( "Eat meet2", "", "NEW"));
-//        inMemoryTaskManager.addAnyTask(new Task( "Eat meet3", "", "NEW"));
-//        inMemoryTaskManager.addAnyTask(new Task( "Eat meet4", "", "NEW"));
-//        System.out.println("Tasks have created");
-//        //Print tasks
-//        System.out.println("-Tasks: " + Arrays.toString(inMemoryTaskManager.getListOfTasks().toArray()));
-//        System.out.println("-Epics: " + Arrays.toString(inMemoryTaskManager.getListOfEpics().toArray()));
-//        System.out.println("-Subtasks: " + Arrays.toString(inMemoryTaskManager.getListOfSubTasks().toArray()));
-//        //Update tasks
-//        inMemoryTaskManager.updateAnyTask(2, new SubTask("Shopping", "buy potato", "DONE"
-//                , 1));
-//        inMemoryTaskManager.updateAnyTask(3, new SubTask("Clear potato", "", "DONE", 1));
-//        inMemoryTaskManager.updateAnyTask(6, new Task( "Drink juice", "", "DONE"));
-//        System.out.println("Tasks have updated");
-//        //Print tasks
-//        System.out.println("-Tasks: " + Arrays.toString(inMemoryTaskManager.getListOfTasks().toArray()));
-//        System.out.println("-Epics: " + Arrays.toString(inMemoryTaskManager.getListOfEpics().toArray()));
-//        System.out.println("-Subtasks: " + Arrays.toString(inMemoryTaskManager.getListOfSubTasks().toArray()));
-//        //Delete tasks
-//        inMemoryTaskManager.deleteAnyTask(1);
-//        inMemoryTaskManager.deleteAnyTask(6);
-//        System.out.println("Tasks have deleted");
-//        //Print tasks
-//        System.out.println("-Tasks: " + Arrays.toString(inMemoryTaskManager.getListOfTasks().toArray()));
-//        System.out.println("-Epics: " + Arrays.toString(inMemoryTaskManager.getListOfEpics().toArray()));
-//        System.out.println("-Subtasks: " + Arrays.toString(inMemoryTaskManager.getListOfSubTasks().toArray()));
+        inMemoryTaskManager.addAnyTask(new Task("Eat meet", "", "NEW"));
 
 
         System.out.println("History of requests before getting of tasks:");
         System.out.println(inMemoryTaskManager.history());
         System.out.println("______________________________________________");
         //Request tasks and print history
-        inMemoryTaskManager.getAnyTask(1);
+
         System.out.println("-------------Task : " + inMemoryTaskManager.getAnyTask(1));
         System.out.println("History of requests:");
         System.out.println(inMemoryTaskManager.history());
@@ -79,6 +50,7 @@ public class Main {
         System.out.println(inMemoryTaskManager.history());
 
         System.out.println("-------------Task : " + inMemoryTaskManager.getAnyTask(2));
+
         System.out.println("History of requests:");
         System.out.println(inMemoryTaskManager.history());
 
@@ -89,7 +61,7 @@ public class Main {
         System.out.println("-------------Task : " + inMemoryTaskManager.getAnyTask(2));
         System.out.println("History of requests:");
         System.out.println(inMemoryTaskManager.history());
-
+        inMemoryTaskManager.getAnyTask(3);
         System.out.println("-------------Task : " + inMemoryTaskManager.getAnyTask(3));
         System.out.println("History of requests:");
         System.out.println(inMemoryTaskManager.history());
@@ -98,7 +70,7 @@ public class Main {
         System.out.println("History of requests:");
         System.out.println(inMemoryTaskManager.history());
 
-        //Removing task
+        //Removing tasks
         inMemoryTaskManager.deleteAnyTask(6);
         System.out.println("History of requests after removing id 6:");
         System.out.println(inMemoryTaskManager.history());
@@ -106,6 +78,5 @@ public class Main {
         inMemoryTaskManager.deleteAnyTask(1);
         System.out.println("History of requests after removing id 1:");
         System.out.println(inMemoryTaskManager.history());
-
     }
 }
