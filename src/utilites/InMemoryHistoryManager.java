@@ -33,7 +33,12 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void deleteAllHistory() {
-        lastTasks.clear();
+
+        Node<Task> currentNode = head;
+        while (currentNode != null) {
+            currentNode.setData(null);
+            currentNode = currentNode.getNext();
+        }
     }
 
     private Node<Task> linkLast(Task task) {

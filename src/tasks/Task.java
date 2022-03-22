@@ -15,11 +15,24 @@ public class Task {
         this.status = StageOfTask.valueOf(status);
     }
 
+    public Task(Integer id, String name, String description, String status) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = StageOfTask.valueOf(status);
+    }
+
     public Task() {
     }
 
+    public static Task formString(String str){
+        String[] parametersOfTask = str.split(",");
+        return new Task(Integer.parseInt(parametersOfTask[0]), parametersOfTask[2],
+                parametersOfTask[4], parametersOfTask[3]);
+    }
+
     public void setId(int id) {
-        if(isNew){
+        if (isNew) {
             this.id = id;
             isNew = false;
         } else {
@@ -70,11 +83,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Tasks.Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                '}';
+        return id + "," + TypesOfTask.Task + "," + name + "," + status + "," + description;
     }
 }

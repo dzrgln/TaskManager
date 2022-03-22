@@ -7,6 +7,16 @@ public class SubTask extends Task {
         super(name, description, status);
         this.idOfEpic = idOfEpic;
     }
+    public SubTask(Integer id, String name, String description, String status, int idOfEpic) {
+        super(id, name, description, status);
+        this.idOfEpic = idOfEpic;
+    }
+
+    public static SubTask formString(String str){
+        String[] parametersOfTask = str.split(",");
+        return new SubTask(Integer.parseInt(parametersOfTask[0]), parametersOfTask[2],
+                parametersOfTask[4], parametersOfTask[3], Integer.parseInt(parametersOfTask[5]));
+    }
 
     public int getIdOfEpic() {
         return idOfEpic;
@@ -18,12 +28,6 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        return "Tasks.SubTask{" +
-                "epic='" + idOfEpic + '\'' +
-                ", id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                '}';
+        return id + "," + TypesOfTask.SubTask + "," + name + "," + status + "," + description+ "," + idOfEpic;
     }
 }

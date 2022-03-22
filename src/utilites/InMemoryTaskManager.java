@@ -3,6 +3,7 @@ package utilites;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
+import tasks.TasksComparator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,10 +12,11 @@ import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
     private static int id = 1;
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final Map<Integer, SubTask> subTasks = new HashMap<>();
-    private final HistoryManager managerHistory = Managers.getDefaultHistory();
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Integer, SubTask> subTasks = new HashMap<>();
+    protected static final HistoryManager managerHistory = Managers.getDefaultHistory();
+    private final TasksComparator comparator = new TasksComparator();
 
     @Override
     public List<Task> getListOfAllTasks() {
@@ -22,6 +24,7 @@ public class InMemoryTaskManager implements TaskManager {
         allTasks.addAll(tasks.values());
         allTasks.addAll(epics.values());
         allTasks.addAll(subTasks.values());
+        allTasks.sort(comparator);
         return allTasks;
     }
 
@@ -52,14 +55,14 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getAnyTask(int id) {
         Task requiredTask = null;
-        if (tasks.containsKey(id)) {
-            requiredTask = getTask(id);
-        }
         if (epics.containsKey(id)) {
             requiredTask = getEpic(id);
         }
         if (subTasks.containsKey(id)) {
             requiredTask = getSubTask(id);
+        }
+        if (tasks.containsKey(id)) {
+            requiredTask = getTask(id);
         }
 
         return requiredTask;
@@ -93,7 +96,6 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             addTask(task);
         }
-//        managerHistory.add(task);
     }
 
     @Override
@@ -228,6 +230,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> history() {
         return managerHistory.getHistoryList();
+    }
+
+    public void deleteAllHistory(){
+        managerHistory.deleteAllHistory();
     }
 
 }

@@ -12,6 +12,17 @@ public class Epic extends Task {
         changeStatus();
     }
 
+    public Epic(Integer id, String name, String description, String status) {
+        super(id, name, description, status);
+    }
+
+
+    public static Epic formString(String str){
+        String[] parametersOfTask = str.split(",");
+        return new Epic(Integer.parseInt(parametersOfTask[0]), parametersOfTask[2],
+                parametersOfTask[4], parametersOfTask[3]);
+    }
+
     public List<SubTask> getSubTasks() {
         return subTasks;
     }
@@ -31,7 +42,7 @@ public class Epic extends Task {
     @Override
     public String toString() {
         changeStatus();
-        return super.toString();
+        return id + "," + TypesOfTask.Epic + "," + name + "," + status + "," + description;
     }
 
     private void changeStatus() {
