@@ -3,9 +3,12 @@ package utilites;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
+
 import java.util.List;
 
 public interface TaskManager {
+     List<Task> getPrioritizedTasks();
+
     List<Task> getListOfAllTasks();
 
     List<Task> getListOfTasks();
@@ -51,4 +54,5 @@ public interface TaskManager {
     List<SubTask> getSubtasksForEpic(int id);
 
     List<Task> history();
+    void deleteAllHistory();
 }

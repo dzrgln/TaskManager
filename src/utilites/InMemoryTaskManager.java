@@ -5,18 +5,16 @@ import tasks.SubTask;
 import tasks.Task;
 import tasks.TasksComparator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private static int id = 1;
     protected static final Map<Integer, Task> tasks = new HashMap<>();
-    protected static  final Map<Integer, Epic> epics = new HashMap<>();
-    protected static  final Map<Integer, SubTask> subTasks = new HashMap<>();
-    protected static final HistoryManager managerHistory = Managers.getDefaultHistory();
-    private final TasksComparator comparator = new TasksComparator();
+    protected static final Map<Integer, Epic> epics = new HashMap<>();
+    protected static final Map<Integer, SubTask> subTasks = new HashMap<>();
+    protected static HistoryManager managerHistory = Managers.getDefaultHistory();
+    protected static final TreeSet<Task> sortedTask = new TreeSet<>(new TasksComparator());
+    protected final TasksComparator comparator = new TasksComparator();
 
     @Override
     public List<Task> getListOfAllTasks() {
@@ -28,6 +26,27 @@ public class InMemoryTaskManager implements TaskManager {
         return allTasks;
     }
 
+    @Override
+    public List<Task> getPrioritizedTasks() {
+        return List.copyOf(sortedTask);
+    }
+
+    public void validateStartTime(Task newTask) throws IllegalArgumentException {
+        List<Task> listForValidation = new ArrayList<>();
+        listForValidation.addAll(tasks.values());
+        listForValidation.addAll(subTasks.values());
+        listForValidation.remove(newTask);
+        for (Task task : listForValidation) {
+            if (newTask.getStartTime().isBefore(task.getStartTime()) &&
+                    newTask.getEndTime().isAfter(task.getStartTime()) ||
+                    newTask.getStartTime().isAfter(task.getStartTime()) &&
+                            newTask.getEndTime().isBefore(task.getEndTime()) ||
+                    newTask.getStartTime().isEqual(task.getStartTime())) {
+                throw new IllegalArgumentException("Время начала задачи пересекается с существующей задачей");
+            }
+        }
+
+    }
 
     @Override
     public List<Task> getListOfTasks() {
@@ -49,7 +68,9 @@ public class InMemoryTaskManager implements TaskManager {
         tasks.clear();
         epics.clear();
         subTasks.clear();
+        sortedTask.clear();
         managerHistory.deleteAllHistory();
+        id = 1;
     }
 
     @Override
@@ -69,26 +90,37 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task getTask(int id) {
-        managerHistory.add(tasks.get(id));
+    public Task getTask(int id) throws NullPointerException {
+        if (!tasks.containsKey(id)) {
+            throw new NullPointerException("Задачи с таким Id не существует");
+        } else {
+            managerHistory.add(tasks.get(id));
+        }
         return tasks.get(id);
     }
 
     @Override
-    public Epic getEpic(int id) {
-        managerHistory.add(epics.get(id));
+    public Epic getEpic(int id) throws NullPointerException {
+        if (!epics.containsKey(id)) {
+            throw new NullPointerException("Задачи с таким Id не существует");
+        } else {
+            managerHistory.add(epics.get(id));
+        }
         return epics.get(id);
     }
 
     @Override
-    public SubTask getSubTask(int id) {
-        managerHistory.add(subTasks.get(id));
+    public SubTask getSubTask(int id) throws NullPointerException {
+        if (!subTasks.containsKey(id)) {
+            throw new NullPointerException("Задачи с таким Id не существует");
+        } else {
+            managerHistory.add(subTasks.get(id));
+        }
         return subTasks.get(id);
     }
 
     @Override
     public void addAnyTask(Task task) {
-
         if (task instanceof Epic) {
             addEpic(task);
         } else if (task instanceof SubTask) {
@@ -100,8 +132,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addTask(Task task) {
+        try {
+            validateStartTime(task);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
         int idTask = id++;
         tasks.put(idTask, task);
+        sortedTask.add(task);
         task.setId(idTask);
     }
 
@@ -116,20 +154,29 @@ public class InMemoryTaskManager implements TaskManager {
                 addSubTask(subTask);
             }
         }
+        ((Epic) task).updateTimeParameters();
+        sortedTask.add(task);
     }
 
     @Override
     public void addSubTask(Task task) {
+        try {
+            validateStartTime(task);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
         int idTask = id++;
         subTasks.put(idTask, (SubTask) task);
         task.setId(idTask);
         if (epics.containsKey(((SubTask) task).getIdOfEpic())) {
             epics.get(subTasks.get(idTask).getIdOfEpic()).getSubTasks().add((SubTask) task);
+            epics.get(subTasks.get(idTask).getIdOfEpic()).updateTimeParameters();
         } else {
             Epic newEpic = new Epic("unknown Epic", "");
             addEpic(newEpic);
             newEpic.getSubTasks().add((SubTask) task);
         }
+        sortedTask.add(task);
     }
 
     @Override
@@ -147,33 +194,48 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(int id, Task task) {
-        epics.get(id).setName(task.getName());
-        epics.get(id).setDescription(task.getDescription());
+        if (epics.containsKey(1)) {
+            epics.get(id).setName(task.getName());
+            epics.get(id).setDescription(task.getDescription());
+        } else {
+            throw new NullPointerException("Задачи с таким ID не существует");
+        }
     }
 
     @Override
     public void updateSubtask(int id, Task task) {
-        subTasks.get(id).setName(task.getName());
-        subTasks.get(id).setDescription(task.getDescription());
-        subTasks.get(id).setIdOfEpic(((SubTask) task).getIdOfEpic());
-        subTasks.get(id).setStatus(task.getStatus());
+        if (subTasks.containsKey(1)) {
+            subTasks.get(id).setDescription(task.getDescription());
+            subTasks.get(id).setIdOfEpic(((SubTask) task).getIdOfEpic());
+            subTasks.get(id).setStatus(task.getStatus());
+            subTasks.get(id).setStartTime(task.getStartTime());
+            subTasks.get(id).setDuration(task.getDuration());
+        } else {
+            throw new NullPointerException("Задачи с таким ID не существует");
+        }
     }
 
     @Override
     public void updateTask(int id, Task task) {
-        tasks.get(id).setName(task.getName());
-        tasks.get(id).setDescription(task.getDescription());
-        tasks.get(id).setStatus(task.getStatus());
+        if (tasks.containsKey(1)) {
+            tasks.get(id).setName(task.getName());
+            tasks.get(id).setDescription(task.getDescription());
+            tasks.get(id).setStatus(task.getStatus());
+            tasks.get(id).setStartTime(task.getStartTime());
+            tasks.get(id).setDuration(task.getDuration());
+        } else {
+            throw new NullPointerException("Задачи с таким ID не существует");
+        }
     }
 
 
     @Override
     public void deleteAnyTask(int id) {
-        if (epics.containsKey(id)) {
+        if (tasks.containsKey(id)) {
             deleteEpic(id);
         } else if (subTasks.containsKey(id)) {
             deleteSubTask(id);
-        } else if (tasks.containsKey(id)) {
+        } else if (epics.containsKey(id)) {
             deleteTask(id);
         } else {
             System.out.println("Задачи с указанным id не существует");
@@ -182,37 +244,37 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteEpic(int id) {
-        try {
+        if (epics.containsKey(id)) {
             managerHistory.remove(epics.get(id));
             for (SubTask subTask1 : getSubtasksForEpic(id)) {
                 managerHistory.remove(subTask1);
                 subTasks.remove(subTask1.getId());
-                epics.remove(id);
             }
-        } catch (NullPointerException e) {
-            System.out.println("Задачи с таким id не существует");
+            epics.remove(id);
+        } else {
+            throw new NullPointerException("Задачи с таким ID: " + id + " не существует");
         }
     }
 
     @Override
     public void deleteSubTask(int id) {
-        try {
+        if (subTasks.containsKey(id)) {
             managerHistory.remove(subTasks.get(id));
             //removing subtask from its epic
             epics.get(subTasks.get(id).getIdOfEpic()).getSubTasks().remove(subTasks.get(id));
             subTasks.remove(id);
-        } catch (NullPointerException e) {
-            System.out.println("Задачи с таким id не существует");
+        } else {
+            throw new NullPointerException("Задачи с таким ID не существует");
         }
     }
 
     @Override
     public void deleteTask(int id) {
-        try {
+        if (tasks.containsKey(id)) {
             managerHistory.remove(tasks.get(id));
             tasks.remove(id);
-        } catch (NullPointerException e) {
-            System.out.println("Задачи с таким id не существует");
+        } else {
+            throw new NullPointerException("Задачи с таким ID не существует");
         }
     }
 
@@ -222,7 +284,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epics.containsKey(id)) {
             subTasksForEpic = epics.get(id).getSubTasks();
         } else {
-            System.out.println("Эпик с указанным id отсутствует");
+            throw new NullPointerException(("Эпик с таким ID отсутствует"));
         }
         return subTasksForEpic;
     }
@@ -232,7 +294,8 @@ public class InMemoryTaskManager implements TaskManager {
         return managerHistory.getHistoryList();
     }
 
-    public void deleteAllHistory(){
+    @Override
+    public void deleteAllHistory() {
         managerHistory.deleteAllHistory();
     }
 

@@ -6,13 +6,16 @@ public class TasksComparator implements Comparator<Task> {
 
     @Override
     public int compare(Task t1, Task t2) {
-        if(t1.getClass().toString().equals("Task") && t2.getClass().toString().equals("Epic") ||
-                t1.getClass().toString().equals("Task") && t2.getClass().toString().equals("Task") ||
-                t1.getClass().toString().equals("Epic") && t2.getClass().toString().equals("Epic") ||
-                t1.getClass().toString().equals("Epic") && t2.getClass().toString().equals("Task")) {
+        if(t1.getStartTime() == null && t2.getStartTime() != null){
+            return 1;
+        }
+        if(t1.getStartTime() != null && t2.getStartTime() == null){
+            return -1;
+        }
+        if(t1.getStartTime() == null && t2.getStartTime() == null ||
+                t1.getStartTime().equals(t2.getStartTime()) ) {
             return 0;
-        } else if (t1.getClass().toString().equals("Task") && t2.getClass().toString().equals("SubTask") ||
-                t1.getClass().toString().equals("Epic") && t2.getClass().toString().equals("SubTask")){
+        } else if (t1.getStartTime().isBefore(t2.getStartTime())  ){
             return -1;
         } else {
             return 1;

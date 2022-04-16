@@ -2,7 +2,10 @@ package utilites;
 
 import tasks.Task;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
@@ -33,12 +36,12 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void deleteAllHistory() {
-
         Node<Task> currentNode = head;
         while (currentNode != null) {
             currentNode.setData(null);
             currentNode = currentNode.getNext();
         }
+        lastTasks.clear();
     }
 
     private Node<Task> linkLast(Task task) {
@@ -56,10 +59,12 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private List<Task> getTasks() {
 
-        List<Task> tasks = new ArrayList<>(size);
+        List<Task> tasks = new ArrayList<>();
         Node<Task> currentNode = head;
         while (currentNode != null) {
-            tasks.add(currentNode.getData());
+            if (currentNode.getData() != null) {
+                tasks.add(currentNode.getData());
+            }
             currentNode = currentNode.getNext();
         }
         return tasks;

@@ -11,58 +11,7 @@ import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
 
-    public static void main(String[] args) {
-        String s = FileSystems.getDefault().getSeparator();
-        InMemoryTaskManager fileBackedTasksManager = new FileBackedTasksManager("D:" + s +
-                "dev" + s + "sprint 2" + s + "java-sprint2-hw" + s + "resources" + s + "tasks.txt");
-
-        //Create epic and three subtasks
-        // id: 1
-        fileBackedTasksManager.addAnyTask(new Epic("Cooking", "Crate dinner"));
-        // id: 2
-        fileBackedTasksManager.addAnyTask(new SubTask("Shopping", "buy potato", "NEW", 1));
-        // id: 3
-        fileBackedTasksManager.addAnyTask(new SubTask("Clear potato", "with knife", "IN_PROGRESS", 1));
-        // id: 4
-        fileBackedTasksManager.addAnyTask(new SubTask("Clear carrot", "with knife", "IN_PROGRESS", 1));
-        //Create Tasks.Epic
-        // id: 5
-        fileBackedTasksManager.addAnyTask(new Epic("Write Diploma", "for order"));
-        //Create two tasks
-        // id: 6
-        fileBackedTasksManager.addAnyTask(new Task("Drink juice", "by juice", "NEW"));
-        // id: 7
-        fileBackedTasksManager.addAnyTask(new Task("Eat meet", "coo meat", "NEW"));
-
-        System.out.println("-------------Task : " + fileBackedTasksManager.getAnyTask(1));
-        System.out.println("History of requests:");
-        System.out.println(fileBackedTasksManager.history());
-
-        System.out.println("-------------Task : " + fileBackedTasksManager.getAnyTask(4));
-        System.out.println("History of requests:");
-        System.out.println(fileBackedTasksManager.history());
-
-        System.out.println("-------------Task : " + fileBackedTasksManager.getAnyTask(2));
-        System.out.println("History of requests:");
-        System.out.println(fileBackedTasksManager.history());
-
-        System.out.println("-------------Task : " + fileBackedTasksManager.getAnyTask(1));
-        System.out.println("History of requests:");
-        System.out.println(fileBackedTasksManager.history());
-
-//        InMemoryTaskManager fileBackedTasksManager1 = new FileBackedTasksManager("D:" + s + "dev" + s + "sprint 2" +
-//                s + "java-sprint2-hw" + s + "resources" + s + "tasks.txt");
-        InMemoryTaskManager fileBackedTasksManager1 = FileBackedTasksManager.loadFromFile("D:" + s +
-                "dev" + s + "sprint 2" + s + "java-sprint2-hw" + s + "resources" + s + "tasks.txt");
-        System.out.println("History of requests after closing:");
-        System.out.println(fileBackedTasksManager1.history());
-
-        System.out.println("Request of some task:");
-        System.out.println(fileBackedTasksManager1.getAnyTask(1));
-        System.out.println(fileBackedTasksManager1.getAnyTask(4));
-
-    }
-    private String path;
+    private final String path;
 
     public String getPath() {
         return path;
@@ -79,6 +28,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         }
         managerHistory.deleteAllHistory();
         for (Integer id : readHistoryFormFile(new File(path))) {
+            managerHistory = new InMemoryHistoryManager();
             if (tasks.containsKey(id)) {
                 managerHistory.add(tasks.get(id));
             } else if (epics.containsKey(id)) {
@@ -128,16 +78,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         } catch (IOException e) {
             System.out.println("Произошла ошибка во время чтения файла.");
         }
-        System.out.println("List of id - " + listOfId);
         return listOfId;
     }
 
-    private void save() throws ManagerSaveException {
+    private void saveInFile() throws ManagerSaveException {
         String separator = FileSystems.getDefault().getSeparator();
         try (FileWriter writer = new FileWriter("D:" + separator + "dev" + separator
                 + "sprint 2" + separator + "java-sprint2-hw" + separator + "resources" + separator + "tasks.txt")) {
             writer.write("id,type,name,status,description,epic\n");
-            for (Task task : getListOfAllTasks()) {
+            for (Task task : sortedTask) {
                 writer.write(task.toString() + "\n");
             }
             writer.write("\n");
@@ -191,7 +140,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public void deleteAllTasks() {
         super.deleteAllTasks();
         try {
-            save();
+            saveInFile();
         } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
@@ -201,7 +150,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public Task getAnyTask(int id) {
         Task task = super.getAnyTask(id);
         try {
-            save();
+            saveInFile();
         } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
@@ -227,7 +176,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public void addAnyTask(Task task) {
         super.addAnyTask(task);
         try {
-            save();
+            saveInFile();
         } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
@@ -252,7 +201,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public void updateAnyTask(int id, Task task) {
         super.updateAnyTask(id, task);
         try {
-            save();
+            saveInFile();
         } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
@@ -277,7 +226,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public void deleteAnyTask(int id) {
         super.deleteAnyTask(id);
         try {
-            save();
+            saveInFile();
         } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }

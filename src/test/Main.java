@@ -3,10 +3,9 @@ package test;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
-import utilites.FileBackedTasksManager;
-import utilites.HistoryManager;
-import utilites.InMemoryHistoryManager;
 import utilites.InMemoryTaskManager;
+
+import java.time.Duration;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,8 +27,6 @@ public class Main {
         // id: 6
         inMemoryTaskManager.addAnyTask(new Task("Drink juice", "by juice", "NEW"));
         // id: 7
-        inMemoryTaskManager.addAnyTask(new Task("Eat meet", "coo meat", "NEW"));
-
 
         System.out.println("History of requests before getting of tasks:");
         System.out.println(inMemoryTaskManager.history());
