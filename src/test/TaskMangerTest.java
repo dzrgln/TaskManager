@@ -1,46 +1,35 @@
 package test;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
-import utilites.InMemoryTaskManager;
 import utilites.TaskManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-abstract class TaskManagerTest {
+abstract class TaskManagerTest <T extends TaskManager> {
 
-    public static TaskManager manager;
+    protected T manager;
 
-    @BeforeEach
-    protected void createManager() {
-        manager = new InMemoryTaskManager();
-    }
 
-    @AfterEach
-    protected void clearManager(){
-        manager.deleteAllTasks();
-    }
 
-    protected static void addTask1() {
+    protected void addTask1() {
         manager.addTask(new Task("NameTask", "Description", "NEW",
                 "2020-03-20 12:02", 40));
     }
 
-    protected static void addTask2() {
+    protected void addTask2() {
         manager.addTask(new Task("NameTask", "Description", "NEW",
                 "2020-03-20 10:02", 40));
     }
 
-    protected static void addEpic() {
+    protected void addEpic() {
         manager.addEpic(new Epic("NameEpic", "Description"));
     }
 
-    protected static void addSubtask() {
+    protected void addSubtask() {
         manager.addSubTask(new SubTask("NameSubtask", "Description", "NEW",
                 2, "2020-03-20 11:02", 40));
     }
@@ -180,7 +169,6 @@ abstract class TaskManagerTest {
         Task controlTask = new Task(1, "Task", "TaskDescr", "NEW",
                 "2020-03-20 12:02", 40);
         assertEquals(controlTask, manager.getAnyTask(1));
-        assertEquals(controlTask, manager.getPrioritizedTasks().get(0));
     }
 
     @Test

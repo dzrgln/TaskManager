@@ -3,18 +3,18 @@ package test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utilites.InMemoryTaskManager;
 
-class InMemoryTaskManagerTest extends TaskManagerTest{
-    @Override
+class InMemoryTaskManagerTest extends TaskManagerTest <InMemoryTaskManager>{
+
     @BeforeEach
-    protected void createManager() {
-        super.createManager();
+    private void createManager() {
+       manager = new InMemoryTaskManager();
     }
 
-    @Override
     @AfterEach
-    protected void clearManager() {
-        super.clearManager();
+    private void clearManager(){
+        manager.deleteAllTasks();
     }
 
     @Test

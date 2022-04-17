@@ -5,9 +5,10 @@ import tasks.SubTask;
 import tasks.Task;
 
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
-     List<Task> getPrioritizedTasks();
+    TreeSet<Task> getPrioritizedTasks();
 
     List<Task> getListOfAllTasks();
 

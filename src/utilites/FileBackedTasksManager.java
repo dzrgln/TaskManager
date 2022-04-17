@@ -13,10 +13,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     private final String path;
 
-    public String getPath() {
-        return path;
-    }
-
     public FileBackedTasksManager(String path) {
         this.path = path;
     }
@@ -83,9 +79,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     private void saveInFile() throws ManagerSaveException {
         String separator = FileSystems.getDefault().getSeparator();
-        try (FileWriter writer = new FileWriter("D:" + separator + "dev" + separator
-                + "sprint 2" + separator + "java-sprint2-hw" + separator + "resources" + separator + "tasks.txt")) {
-            writer.write("id,type,name,status,description,epic\n");
+        try (FileWriter writer = new FileWriter("resources" + separator + "tasks.txt")) {
+            writer.write("id,type,name,status,description,epic, startTime, Duration\n");
             for (Task task : sortedTask) {
                 writer.write(task.toString() + "\n");
             }
@@ -99,10 +94,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     private static void fillInMaps(String string) {
-        Task task = null;
         switch (string.split(",")[1]) {
             case "Task":
-                task = Task.formString(string);
+                Task task = Task.formString(string);
                 tasks.put(task.getId(), task);
                 break;
             case "Epic":

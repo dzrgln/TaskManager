@@ -27,8 +27,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Task> getPrioritizedTasks() {
-        return List.copyOf(sortedTask);
+    public TreeSet<Task> getPrioritizedTasks() {
+        return sortedTask;
     }
 
     public void validateStartTime(Task newTask) throws IllegalArgumentException {

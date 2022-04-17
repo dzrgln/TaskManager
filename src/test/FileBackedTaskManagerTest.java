@@ -4,33 +4,22 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utilites.FileBackedTasksManager;
-import utilites.TaskManager;
 
 import java.nio.file.FileSystems;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class FileBackedTaskManagerTest extends TaskManagerTest{
+class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTasksManager>{
 
-    TaskManager newManager = null;
-    @Override
     @BeforeEach
-    protected void createManager() {
+    private void createManager() {
         String s = FileSystems.getDefault().getSeparator();
-       manager = FileBackedTasksManager.loadFromFile("D:" + s +
-               "dev" + s + "sprint 2" + s + "java-sprint2-hw" + s + "resources" + s + "tasks.txt");
+        manager = new FileBackedTasksManager("resources" + s + "tasks.txt");
     }
 
-    @Override
     @AfterEach
-    protected void clearManager() {
-        super.clearManager();
-    }
-
-    private void createNewManager(){
-        String s = FileSystems.getDefault().getSeparator();
-        newManager = new FileBackedTasksManager("D:" + s +
-                "dev" + s + "sprint 2" + s + "java-sprint2-hw" + s + "resources" + s + "tasks.txt");
+    private void clearManager(){
+        manager.deleteAllTasks();
     }
 
     @Test
@@ -38,15 +27,11 @@ class FileBackedTaskManagerTest extends TaskManagerTest{
         addTask1();
         addTask2();
         assertEquals(2, manager.getListOfAllTasks().size(), "в списке не две задачи");
-        createNewManager();
-        assertEquals(2, newManager.getListOfAllTasks().size(), "в списке не две задачи");
     }
 
     @Test
     public void testFileBacked2_shouldRestoreEmptyListOfTasksFromFile(){
         assertEquals(0, manager.getListOfAllTasks().size(), "в списке не ноль задачи");
-        createNewManager();
-        assertEquals(0, newManager.getListOfAllTasks().size(), "в списке не ноль задачи");
     }
 
     @Test
@@ -54,8 +39,6 @@ class FileBackedTaskManagerTest extends TaskManagerTest{
         addSubtask();
         addTask2();
         assertEquals(0, manager.history().size(), "история не пуста");
-        createNewManager();
-        assertEquals(0, newManager.history().size(), "история не пуста");
     }
 
     @Test
@@ -65,8 +48,6 @@ class FileBackedTaskManagerTest extends TaskManagerTest{
         manager.getAnyTask(1);
         manager.getAnyTask(2);
         assertEquals(2, manager.history().size(), "в истории не две задачи");
-        createNewManager();
-        assertEquals(2, newManager.history().size(), "в истории не две задачи");
     }
 
     @Test
@@ -74,8 +55,6 @@ class FileBackedTaskManagerTest extends TaskManagerTest{
         addEpic();
         manager.getAnyTask(1);
         assertEquals(1, manager.history().size(), "в истории не одна задачи");
-        createNewManager();
-        assertEquals(1, newManager.history().size(), "в истории не одна задачи");
     }
 
     @Test
