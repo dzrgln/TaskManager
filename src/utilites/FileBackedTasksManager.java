@@ -11,19 +11,19 @@ import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
 
-    private final String path;
+    private final File file;
 
-    public FileBackedTasksManager(String path) {
-        this.path = path;
+    public FileBackedTasksManager(File file) {
+        this.file = file;
     }
 
-    public static FileBackedTasksManager loadFromFile(String path) {
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(path);
-        for (String string : readTasksFormFile(new File(path))) {
+    public static FileBackedTasksManager loadFromFile(File file) {
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
+        for (String string : readTasksFormFile(file)) {
             fillInMaps(string);
         }
         managerHistory.deleteAllHistory();
-        for (Integer id : readHistoryFormFile(new File(path))) {
+        for (Integer id : readHistoryFormFile(file)) {
             managerHistory = new InMemoryHistoryManager();
             if (tasks.containsKey(id)) {
                 managerHistory.add(tasks.get(id));

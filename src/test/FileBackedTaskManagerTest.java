@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utilites.FileBackedTasksManager;
 
+import java.io.File;
 import java.nio.file.FileSystems;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +15,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTasksManager>{
     @BeforeEach
     private void createManager() {
         String s = FileSystems.getDefault().getSeparator();
-        manager = new FileBackedTasksManager("resources" + s + "tasks.txt");
+        manager = new FileBackedTasksManager(new File("resources" + s + "tasks.txt"));
     }
 
     @AfterEach
@@ -23,26 +24,26 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTasksManager>{
     }
 
     @Test
-    public void testFileBacked1_shouldRestoreListOfTasksFromFile(){
+    public void testFileBacked1ShouldRestoreListOfTasksFromFile(){
         addTask1();
         addTask2();
         assertEquals(2, manager.getListOfAllTasks().size(), "в списке не две задачи");
     }
 
     @Test
-    public void testFileBacked2_shouldRestoreEmptyListOfTasksFromFile(){
+        public void testFileBacked2ShouldRestoreEmptyListOfTasksFromFile(){
         assertEquals(0, manager.getListOfAllTasks().size(), "в списке не ноль задачи");
     }
 
     @Test
-    public void testFileBackedHistory1_shouldBeEmptyHistory(){
+    public void testFileBackedHistory1ShouldBeEmptyHistory(){
         addSubtask();
         addTask2();
         assertEquals(0, manager.history().size(), "история не пуста");
     }
 
     @Test
-    public void testFileBackedHistory2_shouldBeHistoryWithTwoTasks(){
+    public void testFileBackedHistory2ShouldBeHistoryWithTwoTasks(){
         addSubtask();
         addTask2();
         manager.getAnyTask(1);
@@ -51,7 +52,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTasksManager>{
     }
 
     @Test
-    public void testFileBackedHistory3_shouldBeHistoryWithEpic(){
+    public void testFileBackedHistory3ShouldBeHistoryWithEpic(){
         addEpic();
         manager.getAnyTask(1);
         assertEquals(1, manager.history().size(), "в истории не одна задачи");
@@ -59,150 +60,152 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTasksManager>{
 
     @Test
     @Override
-    public void testGetList1_shouldEmptyListWhenNoAnyTasks() {
-        super.testGetList1_shouldEmptyListWhenNoAnyTasks();
+    public void testGetList1ShouldEmptyListWhenNoAnyTasks() {
+        super.testGetList1ShouldEmptyListWhenNoAnyTasks();
+    }
+    @Test
+    @Override
+    public void testGetList2ShouldEmptyListWhenThereIsTask() {
+        super.testGetList2ShouldEmptyListWhenThereIsTask();
+    }
+    @Test
+    @Override
+    public void testGetList3ShouldEmptyListWhenNoAnyEpics() {
+        super.testGetList3ShouldEmptyListWhenNoAnyEpics();
+    }
+    @Test
+    @Override
+    public void testGetList4ShouldEmptyListWhenThereIsEpic() {
+        super.testGetList4ShouldEmptyListWhenThereIsEpic();
     }
 
-    @Test
     @Override
-    public void testGetList2_shouldEmptyListWhenThereIsTask() {
-        super.testGetList2_shouldEmptyListWhenThereIsTask();
+    public void testGetList5ShouldEmptyListWhenNoAnySubTasks() {
+        super.testGetList5ShouldEmptyListWhenNoAnySubTasks();
     }
     @Test
     @Override
-    public void testGetList3_shouldEmptyListWhenNoAnyEpics() {
-        super.testGetList3_shouldEmptyListWhenNoAnyEpics();
+    public void testGetList6ShouldEmptyListWhenThereIsSubtask() {
+        super.testGetList6ShouldEmptyListWhenThereIsSubtask();
     }
     @Test
     @Override
-    public void testGetList4_shouldEmptyListWhenThereIsEpic() {
-        super.testGetList4_shouldEmptyListWhenThereIsEpic();
+    public void testGet1ShouldThrowExceptionWhenThereIsNoAnyTask() {
+        super.testGet1ShouldThrowExceptionWhenThereIsNoAnyTask();
+    }
+    @Test
+    @Override
+    public void testGet2ShouldThrowExceptionWhenThereIsNoAnyEpic() {
+        super.testGet2ShouldThrowExceptionWhenThereIsNoAnyEpic();
+    }
+    @Test
+    @Override
+    public void testGet3ShouldThrowExceptionWhenThereIsNoAnySubtask() {
+        super.testGet3ShouldThrowExceptionWhenThereIsNoAnySubtask();
+    }
+    @Test
+    @Override
+    public void testGet4ShouldReturnTaskWhenAddTask() {
+        super.testGet4ShouldReturnTaskWhenAddTask();
     }
 
-    @org.junit.Test
     @Override
-    public void testGetList5_shouldEmptyListWhenNoAnySubTasks() {
-        super.testGetList5_shouldEmptyListWhenNoAnySubTasks();
+    public void testGet5ShouldReturnEpicWhenAddEpic() {
+        super.testGet5ShouldReturnEpicWhenAddEpic();
     }
     @Test
     @Override
-    public void testGetList6_shouldEmptyListWhenThereIsSubtask() {
-        super.testGetList6_shouldEmptyListWhenThereIsSubtask();
+    public void testGet6ShouldReturnSubtaskWhenAddSubtask() {
+        super.testGet6ShouldReturnSubtaskWhenAddSubtask();
     }
     @Test
     @Override
-    public void testGet1_shouldThrowExceptionWhenThereIsNoAnyTask() {
-        super.testGet1_shouldThrowExceptionWhenThereIsNoAnyTask();
+    public void testGet7ShouldThrowExceptionWhenRequiredTaskWrongID() {
+        super.testGet7ShouldThrowExceptionWhenRequiredTaskWrongID();
     }
     @Test
     @Override
-    public void testGet2_shouldThrowExceptionWhenThereIsNoAnyEpic() {
-        super.testGet2_shouldThrowExceptionWhenThereIsNoAnyEpic();
+    public void testGet8ShouldThrowExceptionWhenRequiredEpicWrongID() {
+        super.testGet8ShouldThrowExceptionWhenRequiredEpicWrongID();
     }
     @Test
     @Override
-    public void testGet3_shouldThrowExceptionWhenThereIsNoAnySubtask() {
-        super.testGet3_shouldThrowExceptionWhenThereIsNoAnySubtask();
+    public void testGet9ShouldThrowExceptionWhenRequiredSubTaskWrongID() {
+        super.testGet9ShouldThrowExceptionWhenRequiredSubTaskWrongID();
     }
     @Test
     @Override
-    public void testGet4_shouldReturnTaskWhenAddTask() {
-        super.testGet4_shouldReturnTaskWhenAddTask();
+    public void testAdd1ShouldAddTask() {
+        super.testAdd1ShouldAddTask();
     }
     @Test
     @Override
-    public void testGet5_shouldReturnEpicWhenAddEpic() {
-        super.testGet5_shouldReturnEpicWhenAddEpic();
+    public void testAdd2ShouldAddEpicWithoutSubtaskAndCheckSubtasksList() {
+        super.testAdd2ShouldAddEpicWithoutSubtaskAndCheckSubtasksList();
     }
     @Test
     @Override
-    public void testGet6_shouldReturnSubtaskWhenAddSubtask() {
-        super.testGet6_shouldReturnSubtaskWhenAddSubtask();
+    public void testAdd3ShouldAddSubtask() {
+        super.testAdd3ShouldAddSubtask();
     }
     @Test
     @Override
-    public void testGet7_shouldThrowExceptionWhenRequiredTaskWrongID() {
-        super.testGet7_shouldThrowExceptionWhenRequiredTaskWrongID();
+    public void testAdd4ShouldAddEpicWithSubtaskAndCheckSubtasksList() {
+        super.testAdd4ShouldAddEpicWithSubtaskAndCheckSubtasksList();
     }
     @Test
     @Override
-    public void testGet8_shouldThrowExceptionWhenRequiredEpicWrongID() {
-        super.testGet8_shouldThrowExceptionWhenRequiredEpicWrongID();
+    public void testUpdate1ShouldUpdateTask() {
+        super.testUpdate1ShouldUpdateTask();
     }
     @Test
     @Override
-    public void testGet9_shouldThrowExceptionWhenRequiredSubTaskWrongID() {
-        super.testGet9_shouldThrowExceptionWhenRequiredSubTaskWrongID();
+    public void testUpdate2ShouldUpdateSubtask() {
+        super.testUpdate2ShouldUpdateSubtask();
     }
     @Test
     @Override
-    public void testAdd1_shouldAddTask() {
-        super.testAdd1_shouldAddTask();
+    public void testUpdate3ShouldUpdateEpic() {
+        super.testUpdate3ShouldUpdateEpic();
     }
     @Test
     @Override
-    public void testAdd2_shouldAddEpicWithoutSubtaskAndCheckSubtasksList() {
-        super.testAdd2_shouldAddEpicWithoutSubtaskAndCheckSubtasksList();
+    public void testUpdate4WhenIdDoesntExistThrowException() {
+        super.testUpdate4WhenIdDoesntExistThrowException();
     }
     @Test
     @Override
-    public void testAdd3_shouldAddSubtask() {
-        super.testAdd3_shouldAddSubtask();
+    public void testDelete1ShouldDeleteTask() {
+        super.testDelete1ShouldDeleteTask();
     }
     @Test
     @Override
-    public void testAdd4_shouldAddEpicWithSubtaskAndCheckSubtasksList() {
-        super.testAdd4_shouldAddEpicWithSubtaskAndCheckSubtasksList();
+    public void testDelete2ShouldDeleteSubTask() {
+        super.testDelete2ShouldDeleteSubTask();
     }
     @Test
     @Override
-    public void testUpdate1_shouldUpdateTask() {
-        super.testUpdate1_shouldUpdateTask();
+    public void testDelete3ShouldDeleteEpic() {
+        super.testDelete3ShouldDeleteEpic();
     }
     @Test
     @Override
-    public void testUpdate2_shouldUpdateSubtask() {
-        super.testUpdate2_shouldUpdateSubtask();
+    public void testDelete4WhenIdDoesntExistThrowException() {
+        super.testDelete4WhenIdDoesntExistThrowException();
     }
     @Test
     @Override
-    public void testUpdate3_shouldUpdateEpic() {
-        super.testUpdate3_shouldUpdateEpic();
+    public void testGettingSubtasksForEpic1ShouldReturnNotEmptyList() {
+        super.testGettingSubtasksForEpic1ShouldReturnNotEmptyList();
     }
     @Test
     @Override
-    public void testUpdate4_whenIdDoesntExistThrowException() {
-        super.testUpdate4_whenIdDoesntExistThrowException();
+    public void testGettingSubtasksForEpic2ShouldReturnEmptyList() {
+        super.testGettingSubtasksForEpic2ShouldReturnEmptyList();
     }
     @Test
     @Override
-    public void testDelete1_shouldDeleteTask() {
-        super.testDelete1_shouldDeleteTask();
+    public void estGettingSubtasksForEpic3WhenIdDoesntExistThrowException() {
+        super.estGettingSubtasksForEpic3WhenIdDoesntExistThrowException();
     }
-    @Test
-    @Override
-    public void testDelete2_shouldDeleteSubTask() {
-        super.testDelete2_shouldDeleteSubTask();
-    }
-    @Test
-    @Override
-    public void testDelete3_shouldDeleteEpic() {
-        super.testDelete3_shouldDeleteEpic();
-    }
-    @Test
-    @Override
-    public void testDelete4_whenIdDoesntExistThrowException() {
-        super.testDelete4_whenIdDoesntExistThrowException();
-    }
-    @Test
-    @Override
-    public void testGettingSubtasksForEpic1_shouldReturnNotEmptyList() {
-        super.testGettingSubtasksForEpic1_shouldReturnNotEmptyList();
-    }
-    @Test
-    @Override
-    public void testGettingSubtasksForEpic2_shouldReturnEmptyList() {
-        super.testGettingSubtasksForEpic2_shouldReturnEmptyList();
-    }
-
 }

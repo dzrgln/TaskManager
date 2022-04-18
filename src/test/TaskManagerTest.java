@@ -36,42 +36,42 @@ abstract class TaskManagerTest <T extends TaskManager> {
 
     //GetListOfTasks
     @Test
-    public void testGetList1_shouldEmptyListWhenNoAnyTasks() {
+    public void testGetList1ShouldEmptyListWhenNoAnyTasks() {
         assertEquals(0, manager.getListOfTasks().size(), "Список не пуст");
     }
 
     @Test
-    public void testGetList2_shouldEmptyListWhenThereIsTask() {
+    public void testGetList2ShouldEmptyListWhenThereIsTask() {
         addTask1();
         assertEquals(1, manager.getListOfTasks().size(), "В списке не одна задача");
     }
 
     //GetListOfEpics
     @Test
-    public void testGetList3_shouldEmptyListWhenNoAnyEpics() {
+    public void testGetList3ShouldEmptyListWhenNoAnyEpics() {
         assertEquals(0, manager.getListOfEpics().size(), "Список не пуст");
     }
 
     @Test
-    public void testGetList4_shouldEmptyListWhenThereIsEpic() {
+    public void testGetList4ShouldEmptyListWhenThereIsEpic() {
         addEpic();
         assertEquals(1, manager.getListOfEpics().size(), "В списке не одна задача");
     }
 
     //GetListOfSubTasks
     @Test
-    public void testGetList5_shouldEmptyListWhenNoAnySubTasks() {
+    public void testGetList5ShouldEmptyListWhenNoAnySubTasks() {
         assertEquals(0, manager.getListOfSubTasks().size(), "Список не пуст");
     }
 
     @Test
-    public void testGetList6_shouldEmptyListWhenThereIsSubtask() {
+    public void testGetList6ShouldEmptyListWhenThereIsSubtask() {
         addSubtask();
         assertEquals(1, manager.getListOfSubTasks().size(), "В списке не одна задача");
     }
 
     @Test
-    public void testGet1_shouldThrowExceptionWhenThereIsNoAnyTask() {
+    public void testGet1ShouldThrowExceptionWhenThereIsNoAnyTask() {
         final NullPointerException exception = assertThrows(
                 NullPointerException.class,
                 () -> {
@@ -82,7 +82,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testGet2_shouldThrowExceptionWhenThereIsNoAnyEpic() {
+    public void testGet2ShouldThrowExceptionWhenThereIsNoAnyEpic() {
         final NullPointerException exception = assertThrows(
                 NullPointerException.class,
                 () -> {
@@ -93,7 +93,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testGet3_shouldThrowExceptionWhenThereIsNoAnySubtask() {
+    public void testGet3ShouldThrowExceptionWhenThereIsNoAnySubtask() {
         final NullPointerException exception = assertThrows(
                 NullPointerException.class,
                 () -> {
@@ -104,21 +104,21 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testGet4_shouldReturnTaskWhenAddTask() {
+    public void testGet4ShouldReturnTaskWhenAddTask() {
         addTask1();
         Task controlTask = new Task(1, "NameTask", "Description", "NEW");
         assertEquals(controlTask, manager.getTask(1), "В менеджере нет переданной задача");
     }
 
     @Test
-    public void testGet5_shouldReturnEpicWhenAddEpic() {
+    public void testGet5ShouldReturnEpicWhenAddEpic() {
         addEpic();
         Epic controlTask = new Epic(1, "NameEpic", "Description");
         assertEquals(controlTask, manager.getEpic(1), "В менеджере нет переданной задача");
     }
 
     @Test
-    public void testGet6_shouldReturnSubtaskWhenAddSubtask() {
+    public void testGet6ShouldReturnSubtaskWhenAddSubtask() {
         addEpic();
         addSubtask();
         SubTask controlTask = new SubTask(2, "NameSubtask", "Description", "NEW", 1);
@@ -127,7 +127,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
 
 
     @Test
-    public void testGet7_shouldThrowExceptionWhenRequiredTaskWrongID() {
+    public void testGet7ShouldThrowExceptionWhenRequiredTaskWrongID() {
         addTask1();
         final NullPointerException exception = assertThrows(
                 NullPointerException.class,
@@ -139,7 +139,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testGet8_shouldThrowExceptionWhenRequiredEpicWrongID() {
+    public void testGet8ShouldThrowExceptionWhenRequiredEpicWrongID() {
         addEpic();
         final NullPointerException exception = assertThrows(
                 NullPointerException.class,
@@ -151,7 +151,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testGet9_shouldThrowExceptionWhenRequiredSubTaskWrongID() {
+    public void testGet9ShouldThrowExceptionWhenRequiredSubTaskWrongID() {
         addSubtask();
         final NullPointerException exception = assertThrows(
                 NullPointerException.class,
@@ -163,7 +163,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testAdd1_shouldAddTask() {
+    public void testAdd1ShouldAddTask() {
         manager.addTask(new Task("Task", "TaskDescr", "NEW",
                 "2020-03-20 12:02", 40));
         Task controlTask = new Task(1, "Task", "TaskDescr", "NEW",
@@ -172,7 +172,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testAdd2_shouldAddEpicWithoutSubtaskAndCheckSubtasksList() {
+    public void testAdd2ShouldAddEpicWithoutSubtaskAndCheckSubtasksList() {
         manager.addEpic(new Epic("Epic", "TaskDescr"));
         Epic controlTask = new Epic(1, "Epic", "TaskDescr");
         assertEquals(controlTask, manager.getAnyTask(1));
@@ -180,7 +180,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testAdd3_shouldAddSubtask() {
+    public void testAdd3ShouldAddSubtask() {
         manager.addSubTask(new SubTask("SubTask", "TaskDescr", "NEW", 2,
                 "2020-03-20 12:02", 40));
         SubTask controlTask = new SubTask(1, "SubTask", "TaskDescr", "NEW", 2,
@@ -189,7 +189,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testAdd4_shouldAddEpicWithSubtaskAndCheckSubtasksList() {
+    public void testAdd4ShouldAddEpicWithSubtaskAndCheckSubtasksList() {
         manager.addEpic(new Epic("Epic", "TaskDescr"));
         manager.addSubTask(new SubTask("SubTask", "TaskDescr", "NEW", 1,
                 "2020-03-20 12:02", 40));
@@ -200,7 +200,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testUpdate1_shouldUpdateTask() {
+    public void testUpdate1ShouldUpdateTask() {
         addTask1();
         manager.updateTask(1, new Task("NewTask", "Description", "NEW",
                 "2020-03-20 12:02", 42));
@@ -210,7 +210,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testUpdate2_shouldUpdateSubtask() {
+    public void testUpdate2ShouldUpdateSubtask() {
         addSubtask();
         manager.updateSubtask(1, new SubTask("NameSubtask", "Description", "NEW",
                 2, "2020-03-20 13:10", 40));
@@ -220,7 +220,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testUpdate3_shouldUpdateEpic() {
+    public void testUpdate3ShouldUpdateEpic() {
         addEpic();
         manager.updateEpic(1, new Epic(1, "New name", "Descr"));
         Epic controlTask = new Epic(1, "New name", "Descr" );
@@ -228,7 +228,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testUpdate4_whenIdDoesntExistThrowException() {
+    public void testUpdate4WhenIdDoesntExistThrowException() {
         addTask1();
         addSubtask();
         addEpic();
@@ -258,21 +258,21 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testDelete1_shouldDeleteTask(){
+    public void testDelete1ShouldDeleteTask(){
         addTask1();
         manager.deleteTask(1);
         assertEquals(0, manager.getListOfTasks().size(), "Лист задач не пуст");
     }
 
     @Test
-    public void testDelete2_shouldDeleteSubTask(){
+    public void testDelete2ShouldDeleteSubTask(){
         addSubtask();
         manager.deleteSubTask(1);
         assertEquals(0, manager.getListOfSubTasks().size(), "Лист задач не пуст");
     }
 
     @Test
-    public void testDelete3_shouldDeleteEpic(){
+    public void testDelete3ShouldDeleteEpic(){
         addEpic();
         manager.deleteEpic(1);
         assertEquals(0, manager.getListOfEpics().size(), "Лист задач не пуст");
@@ -280,7 +280,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
 
 
     @Test
-    public void testDelete4_whenIdDoesntExistThrowException() {
+    public void testDelete4WhenIdDoesntExistThrowException() {
         addTask1();
         addSubtask();
         addEpic();
@@ -308,20 +308,20 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void testGettingSubtasksForEpic1_shouldReturnNotEmptyList(){
+    public void testGettingSubtasksForEpic1ShouldReturnNotEmptyList(){
         addSubtask();
         addEpic();
         assertEquals(1, manager.getSubtasksForEpic(2).size(), "В листе не один элемент");
     }
 
     @Test
-    public void testGettingSubtasksForEpic2_shouldReturnEmptyList(){
+    public void testGettingSubtasksForEpic2ShouldReturnEmptyList(){
         addEpic();
         assertEquals(0, manager.getSubtasksForEpic(1).size(), "В листе не один элемент");
     }
 
     @Test
-    public void estGettingSubtasksForEpic3_whenIdDoesntExistThrowException() {
+    public void estGettingSubtasksForEpic3WhenIdDoesntExistThrowException() {
         addSubtask();
         addEpic();
         final NullPointerException exceptionTask = assertThrows(

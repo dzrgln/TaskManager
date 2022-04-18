@@ -19,14 +19,14 @@ class InMemoryHistoryManagerTest extends TaskManagerTest{
     }
 
     @Test
-    public void testAdd1_taskShouldAddInHistory(){
+    public void testAdd1TaskShouldAddInHistory(){
         addTask1();
         manager.getTask(1);
         assertEquals(1, manager.history().size(), "В истории просмотров не одна задача");
     }
 
     @Test
-    public void testAdd2_shouldBeOneTaskAfterDubleRequire(){
+    public void testAdd2ShouldBeOneTaskAfterDubleRequire(){
         addTask1();
         manager.getTask(1);
         manager.getTask(1);
@@ -34,13 +34,13 @@ class InMemoryHistoryManagerTest extends TaskManagerTest{
     }
 
     @Test
-    public void testAdd3_shouldBeEmptyListOfHistory(){
+    public void testAdd3ShouldBeEmptyListOfHistory(){
         addTask1();
         assertEquals(0, manager.history().size(), "В истории просмотров не ноль задач");
     }
 
     @Test
-    public void testDelete1_shouldDeleteTask(){
+    public void testDelete1ShouldDeleteTask(){
         addTask1();
         addTask2();
         manager.getTask(1);
@@ -51,7 +51,7 @@ class InMemoryHistoryManagerTest extends TaskManagerTest{
     }
 
     @Test
-    public void testDelete2_shouldDeleteAllTasks(){
+    public void testDelete2ShouldDeleteAllTasks(){
         addTask1();
         addTask2();
         manager.getTask(1);
@@ -72,7 +72,7 @@ class InMemoryHistoryManagerTest extends TaskManagerTest{
     }
 
     @Test
-    public void testRemoveNode1_shouldDeleteFirstNode(){
+    public void testRemoveNode1ShouldDeleteFirstNode(){
         fillInHistory();
         assertEquals(3, manager.history().size(), "В истории просмотров не три задачи");
         manager.deleteTask(1);
@@ -80,21 +80,21 @@ class InMemoryHistoryManagerTest extends TaskManagerTest{
     }
 
     @Test
-    public void testRemoveNode2_shouldDeleteLastNode(){
+    public void testRemoveNode2ShouldDeleteLastNode(){
         fillInHistory();
         assertEquals(3, manager.history().size(), "В истории просмотров не три задачи");
         manager.deleteTask(3);
         assertEquals(2, manager.history().size(), "В истории просмотров не две задачи");
     }
     @Test
-    public void testRemoveNode3_shouldDeleteMiddleNode(){
+    public void testRemoveNode3ShouldDeleteMiddleNode(){
         fillInHistory();
         assertEquals(3, manager.history().size(), "В истории просмотров не три задачи");
         manager.deleteTask(2);
         assertEquals(2, manager.history().size(), "В истории просмотров не две задачи");
     }
     @Test
-    public void testRemoveNode4_shouldDeleteSingleNode(){
+    public void testRemoveNode4ShouldDeleteSingleNode(){
         addTask1();
         manager.getTask(1);
         assertEquals(1, manager.history().size(), "В истории просмотров не одна задачи");
