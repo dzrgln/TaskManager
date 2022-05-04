@@ -100,7 +100,13 @@ public class Epic extends Task {
     @Override
     public String toString() {
         changeStatus();
-        return id + "," + TypesOfTask.Epic + "," + name + "," + status + "," + description + ","
+        if (startTime == null){
+            startTime = LocalDateTime.of(1970, 1, 1, 1, 0);
+        }
+        if(duration == null){
+            duration = Duration.ofMinutes(0);
+        }
+        return id + "," + TypesOfTask.EPIC + "," + name + "," + status + "," + description + ","
                 + startTime  + "," + duration;
     }
 

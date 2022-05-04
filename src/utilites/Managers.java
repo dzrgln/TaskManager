@@ -1,9 +1,13 @@
 package utilites;
 
+import java.io.File;
+import java.nio.file.FileSystems;
+
 public class Managers {
 
     public static TaskManager getDefault(){
-        return new InMemoryTaskManager();
+        String s = FileSystems.getDefault().getSeparator();
+       return new FileBackedTasksManager(new File("resources" + s + "tasks.txt"));
     }
 
     public static HistoryManager getDefaultHistory(){

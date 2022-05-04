@@ -11,6 +11,13 @@ import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
 
+    public static void main(String[] args) {
+        String s = FileSystems.getDefault().getSeparator();
+        FileBackedTasksManager manager = new FileBackedTasksManager(new File("resources" + s + "tasks.txt"));
+        manager.addTask(new Task("D", "sd", "DONE", "2021-03-01 12:00", 40));
+        System.out.println(manager.getAnyTask(1));
+    }
+
     private final File file;
 
     public FileBackedTasksManager(File file) {

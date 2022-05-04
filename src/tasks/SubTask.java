@@ -42,7 +42,7 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        return id + "," + TypesOfTask.SubTask + "," + name + "," + status + "," + description+ "," + idOfEpic + ","
+        return id + "," + TypesOfTask.SUBTASK + "," + name + "," + status + "," + description+ "," + idOfEpic + ","
                 + startTime.format(formatterForTime)  + "," + duration;
     }
 }

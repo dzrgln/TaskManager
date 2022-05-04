@@ -12,7 +12,7 @@ public class Task {
     protected StageOfTask status;
     protected Duration duration;
     protected LocalDateTime startTime;
-    protected DateTimeFormatter formatterForTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public static DateTimeFormatter formatterForTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     protected boolean isNew = true;
 
     public Task(String name, String description, String status, String startTime,
@@ -137,7 +137,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return id + "," + TypesOfTask.Task + "," + name + "," + status + "," + description + ","
+        return id + "," + TypesOfTask.TASK + "," + name + "," + status + "," + description + ","
                 + startTime.format(formatterForTime) + "," + duration;
     }
 }

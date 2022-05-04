@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import tasks.Epic;
 import tasks.StageOfTask;
 import tasks.SubTask;
-import utilites.InMemoryTaskManager;
+import utilites.Managers;
 import utilites.TaskManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +15,7 @@ class EpicTest {
     public static TaskManager manager;
     @BeforeAll
     public static void createManager() {
-        manager = new InMemoryTaskManager();
+        manager = Managers.getDefault();
         manager.addEpic(new Epic("Eat", "Eating"));
     }
 
