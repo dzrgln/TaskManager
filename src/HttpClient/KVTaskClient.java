@@ -11,13 +11,6 @@ public class KVTaskClient {
     private int port = 8079;
     private final HttpClient client = HttpClient.newHttpClient();
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        KVTaskClient client = new KVTaskClient("http://localhost:8078/register");
-        String json = "\"1,NewTask,Description,NEW,2021-03-01 13:00,PT40M\"";
-        client.put("1", json);
-
-    }
-
     public KVTaskClient(String URL) throws IOException, InterruptedException {
         URI uri = URI.create(URL);
         HttpRequest request = HttpRequest.newBuilder()
@@ -51,6 +44,4 @@ public class KVTaskClient {
         HttpResponse<String> response = client.send(request, handler);
         return response.body();
     }
-
-
 }

@@ -1,19 +1,11 @@
 package test;
 
 import HttpServer.KVServer.KVServer;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
 import tasks.Task;
-import utilites.FileBackedTasksManager;
 import utilites.HTTPTaskManager;
-import utilites.Managers;
 import utilites.TaskManager;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.util.stream.Stream;
 
 public class Main {
 
@@ -34,7 +26,7 @@ public class Main {
 
 
         TaskManager manager11 = HTTPTaskManager.load("http://localhost:8079/register");
-        System.out.println(manager11.history());
+        System.out.println("Task" + manager11.getTask(1));
 
 
     }

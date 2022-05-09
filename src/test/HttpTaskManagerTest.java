@@ -1,62 +1,52 @@
 package test;
 
+import HttpServer.KVServer.KVServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utilites.FileBackedTasksManager;
 
-import java.nio.file.FileSystems;
+import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTasksManager>{
-
+public class HttpTaskManagerTest extends FileBackedTaskManagerTest{
+    KVServer server;
     @BeforeEach
-    private void createManager() {
-        String s = FileSystems.getDefault().getSeparator();
-        manager = new FileBackedTasksManager("resources" + s + "tasks.txt");
+    private void createManager() throws IOException {
+        server = new KVServer();
+        server.start();
+        manager = new FileBackedTasksManager("http://localhost:8079/register");
     }
 
     @AfterEach
     private void clearManager(){
+        server.stop();
         manager.deleteAllTasks();
     }
-
     @Test
-    public void testFileBacked1ShouldRestoreListOfTasksFromFile(){
-        addTask1();
-        addTask2();
-        assertEquals(2, manager.getListOfAllTasks().size(), "в списке не две задачи");
+    @Override
+    public void testFileBacked1ShouldRestoreListOfTasksFromFile() {
+        super.testFileBacked1ShouldRestoreListOfTasksFromFile();
     }
-
     @Test
-        public void testFileBacked2ShouldRestoreEmptyListOfTasksFromFile(){
-        assertEquals(0, manager.getListOfAllTasks().size(), "в списке не ноль задачи");
+    @Override
+    public void testFileBacked2ShouldRestoreEmptyListOfTasksFromFile() {
+        super.testFileBacked2ShouldRestoreEmptyListOfTasksFromFile();
     }
-
     @Test
-    public void testFileBackedHistory1ShouldBeEmptyHistory(){
-        addSubtask();
-        addTask2();
-        assertEquals(0, manager.history().size(), "история не пуста");
+    @Override
+    public void testFileBackedHistory1ShouldBeEmptyHistory() {
+        super.testFileBackedHistory1ShouldBeEmptyHistory();
     }
-
     @Test
-    public void testFileBackedHistory2ShouldBeHistoryWithTwoTasks(){
-        addSubtask();
-        addTask2();
-        manager.getAnyTask(1);
-        manager.getAnyTask(2);
-        assertEquals(2, manager.history().size(), "в истории не две задачи");
+    @Override
+    public void testFileBackedHistory2ShouldBeHistoryWithTwoTasks() {
+        super.testFileBackedHistory2ShouldBeHistoryWithTwoTasks();
     }
-
     @Test
-    public void testFileBackedHistory3ShouldBeHistoryWithEpic(){
-        addEpic();
-        manager.getAnyTask(1);
-        assertEquals(1, manager.history().size(), "в истории не одна задачи");
+    @Override
+    public void testFileBackedHistory3ShouldBeHistoryWithEpic() {
+        super.testFileBackedHistory3ShouldBeHistoryWithEpic();
     }
-
     @Test
     @Override
     public void testGetList1ShouldEmptyListWhenNoAnyTasks() {
@@ -77,7 +67,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTasksManager>{
     public void testGetList4ShouldEmptyListWhenThereIsEpic() {
         super.testGetList4ShouldEmptyListWhenThereIsEpic();
     }
-
+    @Test
     @Override
     public void testGetList5ShouldEmptyListWhenNoAnySubTasks() {
         super.testGetList5ShouldEmptyListWhenNoAnySubTasks();
@@ -107,7 +97,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTasksManager>{
     public void testGet4ShouldReturnTaskWhenAddTask() {
         super.testGet4ShouldReturnTaskWhenAddTask();
     }
-
+    @Test
     @Override
     public void testGet5ShouldReturnEpicWhenAddEpic() {
         super.testGet5ShouldReturnEpicWhenAddEpic();
