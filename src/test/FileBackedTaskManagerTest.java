@@ -15,7 +15,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTasksManager>{
     @BeforeEach
     private void createManager() {
         String s = FileSystems.getDefault().getSeparator();
-        manager = new FileBackedTasksManager(new File("resources" + s + "tasks.txt"));
+        manager = new FileBackedTasksManager("resources" + s + "tasks.txt");
     }
 
     @AfterEach

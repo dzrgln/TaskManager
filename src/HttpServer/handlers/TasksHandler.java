@@ -48,6 +48,7 @@ public class TasksHandler implements HttpHandler {
                 inputStream = exchange.getRequestBody();
                 body = new String(inputStream.readAllBytes());
                 updateTask(returnTypeOfTaskFromPath(path), body);
+                break;
             case "GET":
                 exchange.sendResponseHeaders(201, 0);
                 switch (path.length) {

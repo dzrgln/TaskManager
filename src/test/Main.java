@@ -1,25 +1,42 @@
 package test;
 
+import HttpServer.KVServer.KVServer;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import tasks.Task;
 import utilites.FileBackedTasksManager;
+import utilites.HTTPTaskManager;
 import utilites.Managers;
 import utilites.TaskManager;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.stream.Stream;
 
 public class Main {
 
-    public static void main(String[] args) {
-        TaskManager manager = Managers.getDefault();
-        manager.addTask(new Task("Hi", "Desc", "NEW", "2021-01-01 12:50", 10));
-        System.out.println(manager.getAnyTask(1));
-        manager.updateTask(1, new Task("Darove", "Desc", "NEW", "2021-01-01 12:50", 10));
-        System.out.println(manager.getAnyTask(1));
+    public static void main(String[] args) throws IOException, InterruptedException {
+
+        KVServer server = new KVServer();
+        server.start();
+        TaskManager manager = new HTTPTaskManager("http://localhost:8079/register");
+//        TaskManager manager = HTTPTaskManager.load("http://localhost:8079/register");
+        manager.addAnyTask(new Task("Name", "Desc", "NEW"
+                , "2021-10-01 12:20", 40));
+        manager.addAnyTask(new Task("Name2", "Desc2", "NEW"
+                , "2022-10-01 12:20", 40));
+        manager.getAnyTask(1);
+        manager.getAnyTask(2);
+
+
+
+
+        TaskManager manager11 = HTTPTaskManager.load("http://localhost:8079/register");
+        System.out.println(manager11.history());
+
+
     }
 
 }

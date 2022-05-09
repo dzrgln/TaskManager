@@ -7,7 +7,7 @@ public class Managers {
 
     public static TaskManager getDefault(){
         String s = FileSystems.getDefault().getSeparator();
-       return new FileBackedTasksManager(new File("resources" + s + "tasks.txt"));
+       return new FileBackedTasksManager("resources" + s + "tasks.txt");
     }
 
     public static HistoryManager getDefaultHistory(){

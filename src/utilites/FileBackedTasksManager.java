@@ -13,24 +13,24 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     public static void main(String[] args) {
         String s = FileSystems.getDefault().getSeparator();
-        FileBackedTasksManager manager = new FileBackedTasksManager(new File("resources" + s + "tasks.txt"));
+        FileBackedTasksManager manager = new FileBackedTasksManager("resources" + s + "tasks.txt");
         manager.addTask(new Task("D", "sd", "DONE", "2021-03-01 12:00", 40));
         System.out.println(manager.getAnyTask(1));
     }
 
-    private final File file;
+    protected final String name;
 
-    public FileBackedTasksManager(File file) {
-        this.file = file;
+    public FileBackedTasksManager(String name) {
+        this.name = name;
     }
 
-    public static FileBackedTasksManager loadFromFile(File file) {
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
-        for (String string : readTasksFormFile(file)) {
+    public static TaskManager load(String name) {
+        TaskManager manager = new FileBackedTasksManager(name);
+        for (String string : readTasksFormFile(new File(name))) {
             fillInMaps(string);
         }
         managerHistory.deleteAllHistory();
-        for (Integer id : readHistoryFormFile(file)) {
+        for (Integer id : readHistoryFormFile(new File(name))) {
             managerHistory = new InMemoryHistoryManager();
             if (tasks.containsKey(id)) {
                 managerHistory.add(tasks.get(id));
@@ -40,10 +40,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                 managerHistory.add(subTasks.get(id));
             }
         }
-        return fileBackedTasksManager;
+        return manager;
     }
 
-    public static List<String> readTasksFormFile(File file) {
+    protected static List<String> readTasksFormFile(File file) {
         List<String> strings = new ArrayList<>();
         try (FileReader reader = new FileReader(file)) {
             BufferedReader br = new BufferedReader(reader);
@@ -61,7 +61,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         return strings;
     }
 
-    public static List<Integer> readHistoryFormFile(File file) {
+    protected static List<Integer> readHistoryFormFile(File file) {
         List<Integer> listOfId = new ArrayList<>();
         try (FileReader reader = new FileReader(file)) {
             BufferedReader br = new BufferedReader(reader);
@@ -84,7 +84,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         return listOfId;
     }
 
-    private void saveInFile() throws ManagerSaveException {
+    protected void save() throws ManagerSaveException  {
         String separator = FileSystems.getDefault().getSeparator();
         try (FileWriter writer = new FileWriter("resources" + separator + "tasks.txt")) {
             writer.write("id,type,name,status,description,epic, startTime, Duration\n");
@@ -100,7 +100,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         }
     }
 
-    private static void fillInMaps(String string) {
+    protected static void fillInMaps(String string) {
         switch (string.split(",")[1]) {
             case "Task":
                 Task task = Task.formString(string);
@@ -141,7 +141,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public void deleteAllTasks() {
         super.deleteAllTasks();
         try {
-            saveInFile();
+            save();
         } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
@@ -151,7 +151,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public Task getAnyTask(int id) {
         Task task = super.getAnyTask(id);
         try {
-            saveInFile();
+            save();
         } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
@@ -177,7 +177,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public void addAnyTask(Task task) {
         super.addAnyTask(task);
         try {
-            saveInFile();
+            save();
         } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
@@ -202,7 +202,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public void updateAnyTask(int id, Task task) {
         super.updateAnyTask(id, task);
         try {
-            saveInFile();
+            save();
         } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
@@ -227,7 +227,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public void deleteAnyTask(int id) {
         super.deleteAnyTask(id);
         try {
-            saveInFile();
+            save();
         } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
