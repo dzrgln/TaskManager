@@ -16,7 +16,7 @@ public class HttpTaskServer {
         this.port = port;
     }
 
-    public void start(String Port) throws IOException {
+    public void start() throws IOException, InterruptedException {
         TaskManager manager = Managers.getDefault();
         HttpServer httpServer = HttpServer.create();
         httpServer.bind(new InetSocketAddress(port), 0);

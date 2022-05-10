@@ -94,11 +94,9 @@ public class HTTPTaskManager extends FileBackedTasksManager {
     }
 
     public static List<Integer> readHistoryFromJson(String json){
-        List<Integer> listOfId = new ArrayList<>();
         List<String> strings = List.of(json.split("\n"));
-        listOfId = Stream.of(strings.get(strings.size()-1).split(","))
+        return Stream.of(strings.get(strings.size()-1).split(","))
                 .map(Integer::parseInt).collect(Collectors.toList());
-        return listOfId;
     }
 
 

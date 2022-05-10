@@ -1,5 +1,7 @@
 package test;
 
+
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,10 +11,9 @@ import tasks.SubTask;
 import utilites.InMemoryTaskManager;
 import utilites.TaskManager;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 class EpicTest {
-
     public static TaskManager manager;
 
     @BeforeEach
@@ -30,6 +31,8 @@ class EpicTest {
     public void test1ShouldEmptySubtaskList() {
         assertEquals(0, manager.getEpic(1).getSubTasks().size(), "Список не пустой");
     }
+
+
 
     @Test
     public void test2ShouldNotEmptySubtaskList() {
