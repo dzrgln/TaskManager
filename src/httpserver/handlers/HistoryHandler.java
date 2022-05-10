@@ -1,12 +1,12 @@
-package HttpServer.handlers;
+package httpserver.handlers;
 
-import HttpServer.Serializers.EpicSerializer;
-import HttpServer.Serializers.SubtaskSerializer;
-import HttpServer.Serializers.TaskSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import httpserver.serializers.EpicSerializer;
+import httpserver.serializers.SubtaskSerializer;
+import httpserver.serializers.TaskSerializer;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
@@ -35,7 +35,6 @@ public class HistoryHandler implements HttpHandler {
         System.out.println("Началась обработка запроса /history от клиента");
 
         String[] path = exchange.getRequestURI().getPath().split("/");
-        String query = exchange.getRequestURI().getQuery();
         String response = null;
         switch (exchange.getRequestMethod()) {
             case "POST":

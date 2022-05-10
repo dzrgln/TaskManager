@@ -1,6 +1,6 @@
 package test;
 
-import HttpServer.KVServer.KVServer;
+import httpserver.kvserver.KVServer;
 import tasks.Task;
 import utilites.HTTPTaskManager;
 import utilites.TaskManager;

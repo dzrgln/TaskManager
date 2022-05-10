@@ -1,4 +1,4 @@
-package HttpServer.KVServer;
+package httpserver.kvserver;
 
 import java.io.IOException;
 
